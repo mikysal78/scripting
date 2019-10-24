@@ -1,9 +1,14 @@
 #!/bin/bash
 
-#VARS
+#Tags
+FF_DESCRIPTION='MikyTux'
+
+#Vars
 FFMPEG_HW='-threads 8 -hwaccel nvdec -hwaccel_output_format cuda'
 AV_OPT='-preset slow -rc vbr_hq -flags +loop -cmp chroma -subq 6 -me_range 16 -g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -b_strategy 1'
+FF_METADATA='-metadata title="$FF_TITLE" -metadata description="$FF_DESCRIPTION"'
 
+# Windows dialog
 HEIGHT=15
 WIDTH=60
 CHOICE_HEIGHT=5
@@ -27,35 +32,38 @@ clear
 case $CHOICE in
   1)
     echo "Hai scelto 480p"
-    WSIZE=720
-    HSIZE=480
+    W=720
+    H=480
     DEST_DIR=`basename "$PWD"-480p`
     VARS='-acodec aac -strict experimental -ar 44100 -b:a 64k'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,vmw,avi}; do
-      ffmpeg $FFMPEG_HW -i "$i" -vf scale_cuda=$WSIZE:$HSIZE -c:v h264_nvenc $VARS $AV_OPT "../$DEST_DIR/${i%.*}.mp4";
+      FF_TITLE='${i%%.*}'
+      ffmpeg $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc $VARS $AV_OPT $FF_METADATA "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   2)
     echo "Hai scelto 720p"
-    WSIZE=1280
-    HSIZE=720
+    W=1280
+    H=720
     DEST_DIR=`basename "$PWD"-720p`
     VARS='-acodec aac -strict experimental -ar 48000 -b:a 128k'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,vmw,avi}; do
-      ffmpeg $FFMPEG_HW -i "$i" -vf scale_cuda=$WSIZE:$HSIZE -c:v h264_nvenc $VARS $AV_OPT "../$DEST_DIR/${i%.*}.mp4";
+      FF_TITLE='${i%%.*}'
+      ffmpeg $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc $VARS $AV_OPT $FF_METADATA "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
  3)
     echo "Hai scelto 1080p"
-    WSIZE=1920
-    HSIZE=1080
+    W=1920
+    H=1080
     DEST_DIR=`basename "$PWD"-1080p`
     VARS='-acodec aac -strict experimental -ar 48000 -b:a 192k'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,vmw,avi}; do
-     ffmpeg $FFMPEG_HW -i "$i" -vf scale_cuda=$WSIZE:$HSIZE -c:v h264_nvenc $VARS $AV_OPT "../$DEST_DIR/${i%.*}.mp4";
+      FF_TITLE='${i%%.*}'
+     ffmpeg $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc $VARS $AV_OPT $FF_METADATA "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
 esac
