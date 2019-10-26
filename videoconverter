@@ -37,7 +37,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,vmw,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$FW:$FH -c:v h264_nvenc -rc vbr $VARS $RATE $AV_OPT480 -metadata title="$FF_TITLE" -metadata description="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$FW:$FH -c:v h264_nvenc -rc vbr $VARS $RATE $AV_OPT480 -metadata title="$FF_TITLE" -metadata description="$FF_DESC" -metadata comment="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   2)
@@ -51,7 +51,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,vmw,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc -rc vbr_hq $VARS $RATE $AV_OPT -metadata title="$FF_TITLE" -metadata description="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc -rc vbr_hq $VARS $RATE $AV_OPT -metadata title="$FF_TITLE" -metadata description="$FF_DESC" -metadata comment="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
  3)
@@ -65,7 +65,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,vmw,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-     ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc -rc vbr_hq $VARS $RATE $AV_OPT -metadata title="$FF_TITLE" -metadata description="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+     ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc -rc vbr_hq $VARS $RATE $AV_OPT -metadata title="$FF_TITLE" -metadata description="$FF_DESC" -metadata comment="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
 esac
