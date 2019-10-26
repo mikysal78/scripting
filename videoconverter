@@ -34,7 +34,7 @@ case $CHOICE in
     VARS='-acodec aac -strict experimental -ar 44100 -b:a 64k'
     RATE='-minrate 500k -maxrate 2M -bufsize 2M'
     mkdir -p ../"$DEST_DIR"
-    for i in *.{mp4,ts,mov,vmw,avi}; do
+    for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
       ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$FW:$FH -c:v h264_nvenc -rc vbr $VARS $RATE $AV_OPT480 -metadata title="$FF_TITLE" -metadata description="$FF_DESC" -metadata comment="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
@@ -48,7 +48,7 @@ case $CHOICE in
     VARS='-acodec ac3 -ac 6 -strict experimental -ar 48000 -b:a 640k'
     RATE='-minrate 1500k -maxrate 4M -bufsize 5M'
     mkdir -p ../"$DEST_DIR"
-    for i in *.{mp4,ts,mov,vmw,avi}; do
+    for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
       ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc -rc vbr_hq $VARS $RATE $AV_OPT -metadata title="$FF_TITLE" -metadata description="$FF_DESC" -metadata comment="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
@@ -62,7 +62,7 @@ case $CHOICE in
     VARS='-acodec ac3 -ac 6 -strict experimental -ar 48000 -b:a 1536k'
     RATE='-minrate 3500k -maxrate 9M -bufsize 9M'
     mkdir -p ../"$DEST_DIR"
-    for i in *.{mp4,ts,mov,vmw,avi}; do
+    for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
      ffmpeg -hide_banner $FFMPEG_HW -i "$i" -vf scale_cuda=$W:$H -c:v h264_nvenc -rc vbr_hq $VARS $RATE $AV_OPT -metadata title="$FF_TITLE" -metadata description="$FF_DESC" -metadata comment="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
