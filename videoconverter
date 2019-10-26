@@ -31,7 +31,7 @@ case $CHOICE in
     FW=720
     FH=480
     DEST_DIR=`basename "$PWD"-480p`
-    VARS='-acodec aac -strict experimental -ar 44100 -b:a 64k'
+    VARS='-acodec aac -strict experimental -ar 44100 -b:a 64k -metadata:s:a:0 language=ita'
     RATE='-minrate 500k -maxrate 2M -bufsize 2M'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
