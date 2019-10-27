@@ -3,7 +3,7 @@
 #Vars
 HW='-hide_banner -threads 8 -hwaccel nvdec -hwaccel_output_format cuda'
 AV_OPT='-preset slow -flags +loop -cmp chroma -subq 6 -me_range 16 -g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -b_strategy 1'
-TITLE='-metadata title'
+TITLES='-metadata title'
 DESC='-metadata description'
 COMM='-metadata comment'
 
@@ -40,7 +40,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$FH $VOP $VARS $RATE $AV_OPT $TITLE="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$FH $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   2)
@@ -54,7 +54,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg $HW -i "$i" -vf scale_cuda=W:$H $VOP $VARS $RATE $AV_OPT $TITLE="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg $HW -i "$i" -vf scale_cuda=W:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
  3)
@@ -68,7 +68,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLE="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
 esac
