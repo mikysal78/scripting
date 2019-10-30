@@ -17,9 +17,7 @@ MENU="Scegli in quale formato vuoi converire:"
 
 OPTIONS=(1 "Converti in 480p"
          2 "Converti in 720p"
-	 3 "Converti in 720p con AC3 5.1"
-         4 "Converti in 1080p"
-	 5 "Converti in 1080p con AC3 5.1")
+         3 "Converti in 1080p")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
