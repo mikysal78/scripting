@@ -73,7 +73,7 @@ case $CHOICE in
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLE="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
- 5)
+  4)
     echo "Hai scelto 1080p"
     H=1080
     DEST_DIR=`basename "$PWD"-1080p`
@@ -87,7 +87,7 @@ case $CHOICE in
      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLE="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
- 6)
+  5)
     echo "Hai scelto 1080p con AC3 5.1"
     H=1080
     DEST_DIR=`basename "$PWD"-1080p`
