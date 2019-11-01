@@ -58,7 +58,11 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+<<<<<<< HEAD
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $V480 $A480 $OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+=======
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$FH $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+>>>>>>> parent of 3963d83... ffmpeg overwrite file
     done
     ;;
   2)
@@ -69,7 +73,11 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+<<<<<<< HEAD
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $V720 $A720 $OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+=======
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+>>>>>>> parent of 3963d83... ffmpeg overwrite file
     done
     ;;
  3)
@@ -80,7 +88,11 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+<<<<<<< HEAD
      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $V1080 $A1080 $OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+=======
+     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+>>>>>>> parent of 3963d83... ffmpeg overwrite file
     done
     ;;
 esac
