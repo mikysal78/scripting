@@ -40,7 +40,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$FH $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg -y $HW -i "$i" -vf scale_cuda=-1:$FH $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   2)
@@ -54,7 +54,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg -y $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
  3)
@@ -68,7 +68,7 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+     ffmpeg -y $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
 esac
