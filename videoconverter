@@ -1,11 +1,33 @@
 #!/bin/bash
+clear
 
-#Vars
-HW='-hide_banner -threads 8 -hwaccel nvdec -hwaccel_output_format cuda'
-AV_OPT='-preset slow -flags +loop -cmp chroma -subq 6 -me_range 16 -g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -b_strategy 1'
+### Global Vars
+HW='-y -hide_banner -threads 8 -hwaccel nvdec -hwaccel_output_format cuda -c:v h264_nvenc'
+## Opzioni comuni
+OPT='-preset slow -flags +loop -cmp chroma -subq 6 -me_range 16 -g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -b_strategy 1'
 TITLES='-metadata title'
 DESC='-metadata description'
 COMM='-metadata comment'
+
+### Static Vars
+## 480p
+# Audio
+A480='-acodec aac -strict experimental -ar 44100 -b:a 64k -metadata:s:a:0 language=ita'
+# Video
+V480='-rc vbr -minrate 500k -maxrate 2M -bufsize 2M'
+
+## 720p
+# Audio
+A720='-acodec ac3 -ac 6 -strict experimental -ar 48000 -b:a 640k -metadata:s:a:0 language=ita'
+# Video
+V720='-rc vbr_hq -profile:v main -minrate 1500k -maxrate 4M -bufsize 5M'
+
+## 1080p
+# Audio
+A1080='-acodec ac3 -ac 6 -strict experimental -ar 48000 -b:a 1536k -metadata:s:a:0 language=ita'
+# Video
+V1080='-rc vbr_hq -profile:v main -minrate 3500k -maxrate 9M -bufsize 9M'
+
 
 # Windows dialog
 HEIGHT=15
@@ -26,49 +48,39 @@ CHOICE=$(dialog --clear \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
-clear
 
 case $CHOICE in
   1)
     echo "Hai scelto 480p"
-    FH=480
+    H=480
     DEST_DIR=`basename "$PWD"-480p`
-    VARS='-acodec aac -strict experimental -ar 44100 -b:a 64k -metadata:s:a:0 language=ita'
-    RATE='-minrate 500k -maxrate 2M -bufsize 2M'
-    VOP='-c:v h264_nvenc -rc vbr'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg -y $HW -i "$i" -vf scale_cuda=-1:$FH $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $V480 $A480 $OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   2)
     echo "Hai scelto 720p"
     H=720
     DEST_DIR=`basename "$PWD"-720p`
-    VARS='-acodec ac3 -ac 6 -strict experimental -ar 48000 -b:a 640k -metadata:s:a:0 language=ita'
-    RATE='-minrate 1500k -maxrate 4M -bufsize 5M'
-    VOP='-c:v h264_nvenc -rc vbr_hq -profile:v main'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-      ffmpeg -y $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $V720 $A720 $OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
  3)
     echo "Hai scelto 1080p"
     H=1080
     DEST_DIR=`basename "$PWD"-1080p`
-    VARS='-acodec ac3 -ac 6 -strict experimental -ar 48000 -b:a 1536k -metadata:s:a:0 language=ita'
-    RATE='-minrate 3500k -maxrate 9M -bufsize 9M'
-    VOP='-c:v h264_nvenc -rc vbr_hq -profile:v main'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-     ffmpeg -y $HW -i "$i" -vf scale_cuda=-1:$H $VOP $VARS $RATE $AV_OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $V1080 $A1080 $OPT $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
 esac
