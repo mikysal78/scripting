@@ -12,15 +12,16 @@ LINGUA='-map 0:v -map 0:m:language:ita'
 HEIGHT=15
 WIDTH=60
 CHOICE_HEIGHT=5
-BACKTITLE="Converi i tuoi file video"
-TITLE="Converti i file in diversi formati: 480p - 720p - 1080p"
+BACKTITLE="Converi i tuoi video"
+TITLE="Converti i file in diversi formati: 360p - 480p - 720p - 1080p"
 MENU="Scegli in quale formato vuoi converire:"
 
-OPTIONS=(1 "Converti in 480p"
-         2 "Converti in 720p"
-         3 "Converti in 720p con AC5.1"
-	 4 "Converti in 1080p"
-	 5 "Converti in 1080 con AC5.1")
+OPTIONS=(1 "Converti in 360p"
+         2 "Converti in 480p"
+         3 "Converti in 720p"
+         4 "Converti in 720p con AC5.1"
+	 5 "Converti in 1080p"
+	 6 "Converti in 1080 con AC5.1")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -33,6 +34,19 @@ clear
 
 case $CHOICE in
   1)
+    echo "Hai scelto 360p"
+    H=360
+    DEST_DIR=`basename "$PWD"-360p`
+    AOP='-acodec aac -strict experimental -ar 44100 -b:a 64k'
+    VOP='-c:v h264_nvenc -rc vbr -minrate 400k -maxrate 1M -bufsize 1500k'
+    mkdir -p ../"$DEST_DIR"
+    for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
+      FF_TITLE="${i%%.*}"
+      FF_DESC=`basename "$PWD"`
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+    done
+    ;;
+  2)
     echo "Hai scelto 480p"
     H=480
     DEST_DIR=`basename "$PWD"-480p`
@@ -45,7 +59,7 @@ case $CHOICE in
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
-  2)
+  3)
     echo "Hai scelto 720p"
     H=720
     DEST_DIR=`basename "$PWD"-720p`
@@ -58,7 +72,7 @@ case $CHOICE in
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
-  3)
+  4)
     echo "Hai scelto 720p con AC 5.1"
     H=720
     DEST_DIR=`basename "$PWD"-720p`
@@ -71,7 +85,7 @@ case $CHOICE in
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
-  4)
+  5)
     echo "Hai scelto 1080p"
     H=1080
     DEST_DIR=`basename "$PWD"-1080p`
@@ -84,7 +98,7 @@ case $CHOICE in
      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
-  5)
+  6)
     echo "Hai scelto 1080p con AC 5.1"
     H=1080
     DEST_DIR=`basename "$PWD"-1080p`
