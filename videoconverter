@@ -46,7 +46,7 @@ case $CHOICE in
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
 
-if $(ffprobe -hide_banner $i -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita); then
+if $(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita); then
 	echo "Lingua ITA"
 	LINGUA=$LANG_ITA
 else
