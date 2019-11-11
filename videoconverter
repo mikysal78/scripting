@@ -38,7 +38,7 @@ case $CHOICE in
     H=360
     DEST_DIR=`basename "$PWD"-360p`
     AOP='-acodec aac -strict experimental -ar 44100 -b:a 64k'
-    VOP='-c:v h264_nvenc -rc vbr -minrate 400k -maxrate 1M -bufsize 1500k'
+    VOP='-c:v h264_nvenc -rc vbr -minrate 400k -maxrate 1500k -bufsize 1500k'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
