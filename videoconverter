@@ -6,8 +6,8 @@ OPT='-preset slow -flags +loop -cmp chroma -subq 6 -me_range 16 -g 250 -keyint_m
 TITLES='-metadata title'
 DESC='-metadata description'
 COMM='-metadata comment'
-#LINGUA='-map 0:v -map 0:m:language:ita -map 0:a?'
-LINGUA='-map 0:v -map 0:a?'
+LANG_ITA='-map 0:v -map 0:m:language:ita'
+LANG_STD='-map 0:v -map 0:a?'
 
 
 # Windows dialog
@@ -45,6 +45,15 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+
+if $(ffprobe -hide_banner $i -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita); then
+	echo "Lingua ITA"
+	LINGUA=$LANG_ITA
+else
+	echo "no ITA"
+	LINGUA=$LANG_STD
+fi
+
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
