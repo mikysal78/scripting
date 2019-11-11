@@ -45,15 +45,12 @@ case $CHOICE in
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-
-if $(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita); then
-	echo "Lingua ITA"
-	LINGUA=$LANG_ITA
-else
-	echo "no ITA"
-	LINGUA=$LANG_STD
-fi
-
+      TEST_LANG=$(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita)
+        if [ -z "$TEST_LANG" ]; then
+	  LINGUA=$LANG_STD
+        else
+	  LINGUA=$LANG_ITA
+        fi
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
@@ -67,6 +64,12 @@ fi
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+      TEST_LANG=$(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita)
+        if [ -z "$TEST_LANG" ]; then
+	  LINGUA=$LANG_STD
+        else
+	  LINGUA=$LANG_ITA
+        fi
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
@@ -80,6 +83,12 @@ fi
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+      TEST_LANG=$(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita)
+        if [ -z "$TEST_LANG" ]; then
+	  LINGUA=$LANG_STD
+        else
+	  LINGUA=$LANG_ITA
+        fi
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
@@ -93,6 +102,12 @@ fi
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
+      TEST_LANG=$(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita)
+        if [ -z "$TEST_LANG" ]; then
+	  LINGUA=$LANG_STD
+        else
+	  LINGUA=$LANG_ITA
+        fi
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
@@ -106,7 +121,13 @@ fi
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      TEST_LANG=$(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita)
+        if [ -z "$TEST_LANG" ]; then
+	  LINGUA=$LANG_STD
+        else
+	  LINGUA=$LANG_ITA
+        fi
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   6)
@@ -119,7 +140,13 @@ fi
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
       FF_TITLE="${i%%.*}"
       FF_DESC=`basename "$PWD"`
-     ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
+      TEST_LANG=$(ffprobe -hide_banner "$i" -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1 |grep ita)
+        if [ -z "$TEST_LANG" ]; then
+	  LINGUA=$LANG_STD
+        else
+	  LINGUA=$LANG_ITA
+        fi
+      ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
 esac
