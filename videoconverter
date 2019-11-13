@@ -7,8 +7,7 @@ TITLES='-metadata title'
 DESC='-metadata description'
 COMM='-metadata comment'
 LANG_ITA='-map 0:v -map 0:m:language:ita'
-#LANG_STD='-map 0:v -map 0:a?'
-LANG_STD='-map 0:v'
+LANG_STD='-map 0:v -map 0:a?'
 
 # Windows dialog
 HEIGHT=15
