@@ -50,7 +50,6 @@ case $CHOICE in
         else
 	  LINGUA=$LANG_ITA
         fi
-echo "ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4""
       ffmpeg $HW -i "$i" -vf scale_cuda=-1:$H $VOP $AOP $OPT $LINGUA $TITLES="$FF_TITLE" $DESC="$FF_DESC" $COMM="$FF_DESC" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
