@@ -39,7 +39,7 @@ case $CHOICE in
     echo "Hai scelto 360p"
     H=360
     DEST_DIR=`basename "$PWD"-360p`
-    AOP='-acodec libmp3lame -strict experimental -b:a 64k -ar 44100'
+    AOP='-acodec libmp3lame -strict experimental -b:a 48k -ar 44100'
     VOP='-c:v h264_nvenc -rc vbr -minrate 400k -maxrate 1500k -bufsize 1500k'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
@@ -58,7 +58,7 @@ case $CHOICE in
     echo "Hai scelto 480p"
     H=480
     DEST_DIR=`basename "$PWD"-480p`
-    AOP='-acodec aac -strict experimental -ar 44100 -b:a 64k'
+    AOP='-acodec libmp3lame -strict experimental -ar 44100 -b:a 48k'
     VOP='-c:v h264_nvenc -rc vbr_hq -minrate 500k -maxrate 2M -bufsize 2M'
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
