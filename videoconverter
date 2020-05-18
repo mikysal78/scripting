@@ -12,7 +12,7 @@ LANG_STD='-map 0:v -map 0:a?'
 # Windows dialog
 HEIGHT=15
 WIDTH=80
-CHOICE_HEIGHT=7
+CHOICE_HEIGHT=8
 BACKTITLE="Converi i tuoi video"
 TITLE="Converti i file nei formati: 360p - 480p - 720p - 1080p"
 MENU="Scegli in quale formato vuoi converire:"
@@ -23,7 +23,8 @@ OPTIONS=(1 "Converti in 360p"
          4 "Converti in 720p con AC5.1"
 	 5 "Converti in 1080p"
 	 6 "Converti in 1080 con AC5.1"
-	 7 "Converti da TS a MP4 solo")
+	 7 "Converti da TS a MP4 solo"
+	 8 "Converti da MP$ a MKV solo")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -156,6 +157,12 @@ case $CHOICE in
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
         ffmpeg -i "$i" -acodec copy -vcodec copy "../$DEST_DIR/${i%.*}.mp4";
+    done
+    ;;
+  8)
+    echo "Hai scelto di convertire da MP4 a MKV"
+    for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
+        ffmpeg -i "$i" -acodec copy -vcodec copy "${i%.*}.mkv";
     done
     ;;
 
