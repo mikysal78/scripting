@@ -162,7 +162,7 @@ case $CHOICE in
   8)
     echo "Hai scelto di convertire da MP4 a MKV"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
-        ffmpeg -i "$i" -acodec copy -vcodec copy "${i%.*}.mkv";
+        ffmpeg -i "$i" "${i%.*}.mkv";
     done
     ;;
 
