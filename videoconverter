@@ -24,7 +24,7 @@ OPTIONS=(1 "Converti in 360p"
 	 5 "Converti in 1080p"
 	 6 "Converti in 1080 con AC5.1"
 	 7 "Converti da TS a MP4 solo"
-	 8 "Converti da MP$ a MKV solo")
+	 8 "Converti da MP4 a MKV solo")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -161,7 +161,8 @@ case $CHOICE in
   8)
     echo "Hai scelto di convertire da MP4 a MKV"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
-        ffmpeg -i "$i" "${i%.*}.mkv"-;
+        ffmpeg -i "$i" "${i%.*}.mkv";
+	rm -rf $i;
     done
     ;;
 
