@@ -152,17 +152,16 @@ case $CHOICE in
     ;;
   7)
     echo "Hai scelto di convertire da TS a MP4"
-    H=1080
     DEST_DIR=`basename "$PWD"-mp4`
     mkdir -p ../"$DEST_DIR"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
-        ffmpeg -i "$i" -acodec copy -vcodec copy "../$DEST_DIR/${i%.*}.mp4";
+        ffmpeg -i "$i" "../$DEST_DIR/${i%.*}.mp4";
     done
     ;;
   8)
     echo "Hai scelto di convertire da MP4 a MKV"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
-        ffmpeg -i "$i" "${i%.*}.mkv";
+        ffmpeg -i "$i" "${i%.*}.mkv"-;
     done
     ;;
 
