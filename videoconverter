@@ -23,8 +23,8 @@ OPTIONS=(1 "Converti in 360p"
          4 "Converti in 720p con AC5.1"
 	 5 "Converti in 1080p"
 	 6 "Converti in 1080 con AC5.1"
-	 7 "Converti da TS a MP4 solo"
-	 8 "Converti da MP4 a MKV solo")
+	 7 "Converti solo da TS a MKV"
+	 8 "Converti solo da MP4 a MKV")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -151,11 +151,10 @@ case $CHOICE in
     done
     ;;
   7)
-    echo "Hai scelto di convertire da TS a MP4"
-    DEST_DIR=`basename "$PWD"-mp4`
-    mkdir -p ../"$DEST_DIR"
+    echo "Hai scelto di convertire da TS a MKV"
     for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
-        ffmpeg -i "$i" "../$DEST_DIR/${i%.*}.mp4";
+        ffmpeg -i "$i" "${i%.*}.mkv";
+	rm -rf "${i%.*}.ts";
     done
     ;;
   8)
