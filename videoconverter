@@ -164,6 +164,13 @@ case $CHOICE in
 	rm -rf "${i%.*}.mp4";
     done
     ;;
+  9)
+    echo "Hai scelto di convertire senza CUDA in MP4 a 720p"
+    for i in *.{mp4,ts,mov,wmv,mpg,avi,mkv}; do
+	ffmpeg -threads $(nproc) -i "$i" -crf 20.0 -vcodec libx264 -filter:v scale=w=720:h=480 -preset slow -acodec aac -strict experimental -ar 44100 -b:a 64k -coder 1 -flags +loop -cmp chroma -partitions +parti4x4+partp8x8+partb8x8 -me_method hex -subq 6 -me_range 16 -g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -b_strategy 1 "${i%.*}.mkv";
+	rm -rf "$i";
+    done
+    ;;
 
 
 esac
