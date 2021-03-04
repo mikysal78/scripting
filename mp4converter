@@ -2,6 +2,9 @@
 
 FF_TITLE="${1%%.*}"
 
+# Is hardware accelleration support possible (cuda)
+hw=y
+
 
 function usage()  {
 
@@ -39,13 +42,22 @@ exit 1
 }
 
 function convertvideo() {
-
-# Check if two pass configuration is required (off by default)
-if [[ $pass -eq 2 ]]; then
-    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
-    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$FF_TITLE" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output"_edit.$container
+if [[ $hw == y ]]; then
+	# Check if two pass configuration is required (off by default)
+	if [[ $pass -eq 2 ]]; then
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	else
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	fi
 else
-    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$FF_TITLE" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output"_edit.$container
+	# Check if two pass configuration is required (off by default)
+	if [[ $pass -eq 2 ]]; then
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	else
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	fi
 fi
 
 if [[ $? -ne 0 ]]; then
@@ -66,14 +78,6 @@ fi
 
 }
 
-## temp cli
-#### DeInterlacing
-### for i in `ls`; do ffmpeg -y -hwaccel cuvid -vsync 0 -i $i -c:v h264_nvenc -preset llhq -vf "yadif=parity=tff:deint=all" -c:a aac -ac 2 `basename -s .MPG $i`.mp4 ;done
-### deInterlacing plus sharpning
-### ffmpeg -y -hwaccel cuvid -vsync 0 -i M2U00357.MPG -c:v h264_nvenc -preset llhq -filter_complex "yadif=parity=tff:deint=all,unsharp=lx=7:ly=7:la=1.5:cx=7:cy=7:ca=1.5" -c:a aac -ac 2 M2U00357_2.mp4
-### deInterlacing plus sharpning plus scaling
-### ffmpeg -y -hwaccel cuvid -vsync 0 -i M2U00357.MPG -c:v h264_nvenc -preset llhq -filter_complex "yadif=parity=tff:deint=all,unsharp=lx=7:ly=7:la=1.5:cx=7:cy=7:ca=1.5,scale=1920:1080 -c:a aac -ac 2 M2U00357_2.mp4
-
 if [[ $1 == "" ]]; then
     echo "Need the input file"
     ls -1
@@ -84,8 +88,8 @@ fi
 while getopts ayht opt
 do
     case $opt in
-        a) framerate=30; vencoder=h264_nvenc; pass=1; vbit=3M; aencoder=aac; abit=128k; audiosr=48000; input=$2; output="$FF_TITLE"; aspect=1920:1080; container=mp4 ;;
-        y) framerate=30; vencoder=h264_nvenc; pass=1; vbit=5M; aencoder=aac; abit=384k; audiosr=48000; input=$2; output="$FF_TITLE"; aspect=1920:1080; container=mp4 ;;
+        a) framerate=30; vencoder=h264; pass=1; vbit=3M; aencoder=aac; abit=128k; audiosr=48000; input=$2; output="$FF_TITLE"; aspect=1920:1080; container=mp4 ;;
+        y) framerate=30; vencoder=h264; pass=1; vbit=5M; aencoder=aac; abit=384k; audiosr=48000; input=$2; output="$FF_TITLE"; aspect=1920:1080; container=mp4 ;;
         t) tumbnail="y"; thumbnum=$OPTARG ;;
         *|h) usage ;;
     esac
@@ -206,8 +210,6 @@ case $abitr in
     *) die 1 ;;
 esac
 
-# Is hardware accelleration support possible
-hw=y
 
 ##############################
 # Select frame rate
@@ -241,6 +243,8 @@ esac
 #############################
 echo "Informazioni sul video: $FF_TITLE"
 echo ""
+echo "Titolo?"
+read -e -i "FF_TITLE" TITOLO
 echo "Descrizione?"
 read -e -i "Video" DESCRIZIONE
 echo "Commento?"
