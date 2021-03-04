@@ -244,7 +244,7 @@ esac
 echo "Informazioni sul video: $FF_TITLE"
 echo ""
 echo "Titolo?"
-read -e -i "FF_TITLE" TITOLO
+read -e -i "$FF_TITLE" TITOLO
 echo "Descrizione?"
 read -e -i "Video" DESCRIZIONE
 echo "Commento?"
