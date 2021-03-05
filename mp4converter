@@ -46,17 +46,17 @@ if [[ $hw == y ]]; then
 	# Check if two pass configuration is required (off by default)
 	if [[ $pass -eq 2 ]]; then
 	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
-	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
 	else
-	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
 	fi
 else
 	# Check if two pass configuration is required (off by default)
 	if [[ $pass -eq 2 ]]; then
     		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
-    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
 	else
-    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata author="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
 	fi
 fi
 
@@ -241,6 +241,7 @@ case $aspect in
 esac
 
 #############################
+clear
 echo "Informazioni sul video: $FF_TITLE"
 echo ""
 echo "Titolo?"
