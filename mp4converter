@@ -46,17 +46,17 @@ if [[ $hw == y ]]; then
 	# Check if two pass configuration is required (off by default)
 	if [[ $pass -eq 2 ]]; then
 	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
-	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata category="$GENERE" -metadata year="$ANNO" -metadata date="$(date + '%Y.%m.%d')" -metadata media_type="$TYPE" -metadata hd_video="$HDVIDEO" -metadata author="$(whoami)" -metadata encoded_by="$(whoami)" -metadata copyright="$COPYRIGHT" "$output".$container
 	else
-	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+	    ffmpeg -y -hide_banner -stats -vsync 0 -hwaccel cuda -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata category="$GENERE" -metadata year="$ANNO" -metadata date="$(date + '%Y.%m.%d')" -metadata media_type="$TYPE" -metadata hd_video="$HDVIDEO" -metadata author="$(whoami)" -metadata encoded_by="$(whoami)" -metadata copyright="$COPYRIGHT" "$output".$container
 	fi
 else
 	# Check if two pass configuration is required (off by default)
 	if [[ $pass -eq 2 ]]; then
     		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 1 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -f rawvideo /dev/null
-    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -pass 2 -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata category="$GENERE" -metadata year="$ANNO" -metadata date="$(date + '%Y.%m.%d')" -metadata media_type="$TYPE" -metadata hd_video="$HDVIDEO" -metadata author="$(whoami)" -metadata encoded_by="$(whoami)" -metadata copyright="$COPYRIGHT" "$output".$container
 	else
-    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata year="$ANNO" "$output".$container
+    		ffmpeg -y -hide_banner -stats -vsync 0 -threads $(nproc) -i "$input" -r $framerate -c:v $vencoder -filter_complex "yadif=parity=tff:deint=all,scale=$aspect" -b:v $vbit -c:a $aencoder -b:a $abit -ar $audiosr -metadata title="$TITOLO" -metadata description="$DESCRIZIONE" -metadata comment="$COMMENTO" -metadata artist="$ATTORE" -metadata genre="$GENERE" -metadata category="$GENERE" -metadata year="$ANNO" -metadata date="$(date + '%Y.%m.%d')" -metadata media_type="$TYPE" -metadata hd_video="$HDVIDEO" -metadata author="$(whoami)" -metadata encoded_by="$(whoami)" -metadata copyright="$COPYRIGHT" "$output".$container
 	fi
 fi
 
@@ -241,6 +241,33 @@ case $aspect in
 esac
 
 #############################
+# Select HD Video
+echo "Select resolution:
+0. SD
+1. 720p
+2. 1080p Full HD
+3. 2160p UHD
+"
+read -e -i 0 HDVIDEO
+
+#############################
+# Select Media Type
+echo "Select media type
+1. TV Show
+2. Movie
+3. Music
+4. Audiobook
+"
+read -e -i 2 TYPE
+case $TYPE in
+    1) TV Show ;;
+    2) Movie ;;
+    3) Music ;;
+    4) Audiobook ;;
+    *) die 1 ;;
+esac
+
+#############################
 clear
 echo "Informazioni sul video: $FF_TITLE"
 echo ""
@@ -257,7 +284,7 @@ read -e -i "Film" GENERE
 echo "Anno?"
 annocorrente=$(date +'%Y')
 read -e -i "$annocorrente" ANNO
-
+echo "Copyright:"
+read -e -i "nessuno" COPYRIGHT
 clear
-
 convertvideo
