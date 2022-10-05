@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p mp3
 for f in *.flac;
-  do flac -cd "$f" | lame -b 320 - "${f%.*}".mp3;
+  do flac -cd "$f" | lame -b 320 - mp3/"${f%.*}".mp3;
 done
